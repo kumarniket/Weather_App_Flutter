@@ -4,11 +4,13 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
 Documentation:
 https://openweathermap.org/current
+contact: https://krniket.tech
 
-##First Showcase
-![](imagess/1.jpeg)
+##First Showcase photo
+![](imagess/11.png)
+
+##Second Showcase photo
+![](images/22.png)
 # Weather_App_Flutter

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app_flutter/searchCity.dart';
 import 'package:weather_app_flutter/weather_screen.dart';
 
 void main() {
@@ -10,7 +11,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Weather App',
-      home: WeatherScreen(),
+      //home: WeatherScreen(),
+      home: SearchCity(),
     );
   }
 }

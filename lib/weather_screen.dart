@@ -3,7 +3,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+
 class WeatherScreen extends StatefulWidget {
+  final String city;
+  WeatherScreen({this.city});
+
   @override
   _WeatherScreenState createState() => _WeatherScreenState();
 }
@@ -14,10 +18,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
   var currently;
   var humidity;
   var windSpeed;
+  var name;
 
-  Future getWeather() async {
+  Future getWeather(String city) async {
     http.Response response = await http.get(
-        'http://api.openweathermap.org/data/2.5/weather?q=Patna&units=imperial&appid={your api key}');
+        'http://api.openweathermap.org/data/2.5/weather?q=$city&units=imperial&appid=24e81755f4b617ad2ba18fca8f9f1312');
+    if (response.statusCode != 200) throw Exception();
+
     var result = jsonDecode(response.body);
     setState(() {
       this.temp = result['main']['temp'];
@@ -25,24 +32,29 @@ class _WeatherScreenState extends State<WeatherScreen> {
       this.currently = result['weather'][0]['main'];
       this.humidity = result['main']['humidity'];
       this.windSpeed = result['wind']['speed'];
+      this.name = result['name'];
     });
   }
 
   @override
   void initState() {
     super.initState();
-    this.getWeather();
+    this.getWeather(widget.city);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Weather'),
+        backgroundColor: Colors.blue,
+      ),
       body: Column(
         children: <Widget>[
           Container(
             height: MediaQuery.of(context).size.height / 3,
             width: MediaQuery.of(context).size.width,
-            color: Colors.red,
+            color: Colors.blue[200],
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,7 +62,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 10),
                   child: Text(
-                    'currently in Patna',
+                    'Currently in ${name.toString()}',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 14.0,
@@ -107,7 +119,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       leading: FaIcon(FontAwesomeIcons.wind),
                       title: Text('Wind Speed'),
                       trailing: Text(
-                          windSpeed != null ? windSpeed.toString() : "Loading"),
+                          windSpeed != null ? windSpeed.toString() + "km/h" : "Loading"),
                     ),
                   ],
                 )),
